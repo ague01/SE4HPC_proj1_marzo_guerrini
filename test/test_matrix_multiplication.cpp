@@ -112,6 +112,34 @@ TEST(MatrixMultiplicationTest, TestTranspose)
 }
 
 /**
+ * @brief Test the multiplication by two matrices with same values.
+ *
+ */
+TEST(MatrixMultiplicationTest, TestSameValues)
+{
+    std::vector<std::vector<int>> A = {
+        {1, 1, 1},
+        {1, 1, 1},
+        {1, 1, 1}};
+
+    std::vector<std::vector<int>> B = {
+        {33, 33, 33},
+        {33, 33, 33},
+        {33, 33, 33}};
+
+    std::vector<std::vector<int>> C(3, std::vector<int>(3, 0));
+
+    multiplyMatrices(A, B, C, 3, 3, 3);
+
+    std::vector<std::vector<int>> expected = {
+        {99, 99, 99},
+        {99, 99, 99},
+        {99, 99, 99}};
+
+    ASSERT_EQ(C, expected) << "Square matrix by itself test failed! :(((()";
+}
+
+/**
  * @brief Test with negative matrices.
  * From the first test, and from the meta relation (-A)*(-B)=C we can test this
  *
@@ -140,6 +168,31 @@ TEST(MatrixMultiplicationTest, TestNegativeMatrices)
     std::vector<std::vector<int>> expected = {
         {58, 64},
         {139, 154}};
+
+    ASSERT_EQ(C, expected) << "Matrix negative test failed! :(((()";
+}
+
+/**
+ * @brief Test with same value in a row and column
+ *
+ */
+TEST(MatrixMultiplicationTest, TestSameRow)
+{
+    std::vector<std::vector<int>> A = {
+        {1, 2, 2},
+        {1, 2, 6}};
+    std::vector<std::vector<int>> B = {
+        {1, 1},
+        {2, 2},
+        {2, 2}};
+    std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+
+
+    multiplyMatrices(A, B, C, 2, 3, 2);
+
+    std::vector<std::vector<int>> expected = {
+        {25, 45},
+        {17, 27}};
 
     ASSERT_EQ(C, expected) << "Matrix negative test failed! :(((()";
 }
