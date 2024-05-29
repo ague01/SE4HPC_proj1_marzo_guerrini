@@ -197,6 +197,44 @@ TEST(MatrixMultiplicationTest, TestSameRow)
     ASSERT_EQ(C, expected) << "Matrix negative test failed! :(((()";
 }
 
+TEST(MatrixMultiplicationTest, TestIdentityMatrix)
+{
+    std::vector<std::vector<int>> A = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}};
+
+    std::vector<std::vector<int>> I = {
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 1}};
+
+    std::vector<std::vector<int>> C(3, std::vector<int>(3, 0));
+
+    multiplyMatrices(A, I, C, 3, 3, 3);
+
+    ASSERT_EQ(C, A) << "Identity matrix test failed! :(((()";
+}
+
+TEST(MatrixMultiplicationTest, TestZeroMatrix)
+{
+    std::vector<std::vector<int>> A = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}};
+
+    std::vector<std::vector<int>> Z = {
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0}};
+
+    std::vector<std::vector<int>> C(3, std::vector<int>(3, 0));
+
+    multiplyMatrices(A, Z, C, 3, 3, 3);
+
+    ASSERT_EQ(C, Z) << "Zero matrix test failed! :(((()";
+}
+
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);
