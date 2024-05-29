@@ -5,6 +5,14 @@
 
 // ######################### Source code of multiplyMatrices in src/matrix_mult
 
+// In defining the test cases, we have mainly used metamorphic relations of matrix multiplication.
+// Let A, B, and C be matrices of size m x n, n x p, and m x p, respectively. Then, the following relation holds:
+// (aA)B = a(AB) = A(aB) = aAB, where a is a scalar.
+// (A^T)(B^T) = (AB)^T
+// (-A)(-B) = AB
+// A(I) = A
+// A(0) = 0
+
 /**
  * @brief Fist test provided by the assignment.
  *
@@ -31,7 +39,7 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices)
 
 /**
  * @brief Test the pre-multiplication by a scalar of the product for the matrices in first test.
- * Starting from the first test and the methamorphic relation aAB = aB with scalar a.
+ * Starting from the first test and the methamorphic relation that starting from AB = C states aAB = aC with scalar a.
  *
  */
 TEST(MatrixMultiplicationTest, TestPremultScalar)
@@ -197,6 +205,9 @@ TEST(MatrixMultiplicationTest, TestSameRow)
     ASSERT_EQ(C, expected) << "Matrix negative test failed! :(((()";
 }
 
+/**
+ * @brief Test according to the meta relation A*I = A
+*/
 TEST(MatrixMultiplicationTest, TestIdentityMatrix)
 {
     std::vector<std::vector<int>> A = {
@@ -204,18 +215,21 @@ TEST(MatrixMultiplicationTest, TestIdentityMatrix)
         {4, 5, 6},
         {7, 8, 9}};
 
-    std::vector<std::vector<int>> I = {
+    std::vector<std::vector<int>> B = {
         {1, 0, 0},
         {0, 1, 0},
         {0, 0, 1}};
 
     std::vector<std::vector<int>> C(3, std::vector<int>(3, 0));
 
-    multiplyMatrices(A, I, C, 3, 3, 3);
+    multiplyMatrices(A, B, C, 3, 3, 3);
 
     ASSERT_EQ(C, A) << "Identity matrix test failed! :(((()";
 }
 
+/**
+ * @brief Test according to the meta relation A*0 = 0
+*/
 TEST(MatrixMultiplicationTest, TestZeroMatrix)
 {
     std::vector<std::vector<int>> A = {
@@ -223,16 +237,16 @@ TEST(MatrixMultiplicationTest, TestZeroMatrix)
         {4, 5, 6},
         {7, 8, 9}};
 
-    std::vector<std::vector<int>> Z = {
+    std::vector<std::vector<int>> B = {
         {0, 0, 0},
         {0, 0, 0},
         {0, 0, 0}};
 
     std::vector<std::vector<int>> C(3, std::vector<int>(3, 0));
 
-    multiplyMatrices(A, Z, C, 3, 3, 3);
+    multiplyMatrices(A, B, C, 3, 3, 3);
 
-    ASSERT_EQ(C, Z) << "Zero matrix test failed! :(((()";
+    ASSERT_EQ(C, B) << "Zero matrix test failed! :(((()";
 }
 
 int main(int argc, char **argv)
