@@ -136,7 +136,7 @@ TEST(MatrixMultiplicationTest, TestNegativeMatrices)
 TEST(MatrixMultiplicationTest, TestIdentityMatrix)
 {
     std::vector<std::vector<int>> A = {
-        {1, 2, 2},
+        {1, 1, 2},
         {3, 3, 4},
         {5, 5, 5}};
 
@@ -180,24 +180,24 @@ TEST(MatrixMultiplicationTest, TestZeroMatrix)
  */
 TEST(MatrixMultiplicationTest, TestInverseMatrix)
 {
-    std::vector<std::vector<int>> A = {
-        {2, 1, 1},
-        {1, 2, 1},
-        {1, 1, 2}};
+   std::vector<std::vector<int>> A = {
+        {1, 2, 3},
+        {4, 5, 7},
+        {8, 9, 12}};
 
     std::vector<std::vector<int>> B = {
-        {3, -1, -1},
-        {-1, 2, -1},
-        {-1, -1, 2}};
+        {-3, 3, -1},
+        {8, -12, 5},
+        {-4, 7, -3}};
 
     std::vector<std::vector<int>> C(3, std::vector<int>(3, 0));
 
     multiplyMatrices(A, B, C, 3, 3, 3);
 
     std::vector<std::vector<int>> expected = {
-        {1, 1, 1},
-        {1, 1, 1},
-        {1, 1, 1}};
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 1}};
 
     ASSERT_EQ(C, expected) << "Square matrix by itself test failed! :(((()";
 }
