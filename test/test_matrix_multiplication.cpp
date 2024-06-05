@@ -352,6 +352,7 @@ TEST(MatrixMultiplicationTest, TestColumnRowMatrices)
 /**
  * @brief Test with incompatible dimensions of the object C.
  *
+ * This test is passed without rising any exception, that instead should be raised in a correct implementation
  */
 TEST(MatrixMultiplicationTest, TestIncompatibleObjectC)
 {
