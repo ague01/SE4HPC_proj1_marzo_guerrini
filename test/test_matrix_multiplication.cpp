@@ -12,10 +12,9 @@
 // * The dimensions of the matrices are passed as arguments.
 
 // We start our testing phase having supposed that, once the dimensions of the matrices passed
-// as arguments are compatible, the function should work properly. We are not able to do any
-// further assumption related to the case in which either the dimensions of the input objects A, B and C
-// are not compatible or the integer input representing the dimensions of the objects are not compatible with
-// the effective dimensions of the objects. We decide to test also this cases.
+// as arguments are compatible with the inputs rowsA, colsA and colsB, the function should work properly. 
+// We are not able to do any further assumption related to the case in which these are not compatible.
+// This is why we've decided to test also these cases.
 
 // In defining the test cases, we have used three approaches:
 // - Generating test cases exploting metamorphic relations of matrix multiplication.
@@ -37,9 +36,10 @@
 // - row matrix and column matrix
 // - column matrix and row matrix
 //
-// For what concern testing incompatible input values, we have considered the following cases, that we expect to be the most likely to address bugs.
+// For what concern testing incompatible input values, we have chosen them because we expect to be the most likely to address bugs.
 // In fact, the signature of the function, suggests that it may base all the computation on the input values rowsA, colsA and colsB an it's
 // important to check whether the function controls the correspondence between this values and the effective dimensions of the matrices.
+// The chosen test cases are:
 // - The value of rowsA is greater than the effective number of rows of the matrix A
 // - The value of rowsA is smaller than the effective number of rows of the matrix A
 
