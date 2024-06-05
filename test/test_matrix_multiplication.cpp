@@ -20,7 +20,7 @@
 // In defining the test cases, we have used three approaches:
 // - Generating test cases exploting metamorphic relations of matrix multiplication.
 // - Testing cases at the border for what concern the dimensions of the input matrices, as they are generally more likely to contain bugs.
-// - Testing cases with wrong incompatible dimensions of the input values.
+// - Testing cases with dimensions of the input values rowsA and colA incompatible with the effective dimension of the object A and B.
 //
 // For the first approach, we have considered the following metamorphic relations:
 // Let A, B, and C be matrices of size m x n, n x p, and m x p, respectively. Then, the following relation holds:
@@ -37,9 +37,9 @@
 // - row matrix and column matrix
 // - column matrix and row matrix
 //
-// For what concern testing incompatible input values, we have considered the following cases, that we expect to be the most likely to address bugs:
-// - The dimensions of the objects A and B are not compatible
-// - The dimensions of the object C is not compatible with the dimensions of the expected result
+// For what concern testing incompatible input values, we have considered the following cases, that we expect to be the most likely to address bugs.
+// In fact, the signature of the function, suggests that it may base all the computation on the input values rowsA, colsA and colsB an it's
+// important to check whether the function controls the correspondence between this values and the effective dimensions of the matrices.
 // - The value of rowsA is greater than the effective number of rows of the matrix A
 // - The value of rowsA is smaller than the effective number of rows of the matrix A
 
@@ -328,54 +328,10 @@ TEST(MatrixMultiplicationTest, TestColumnRowMatrices)
 ////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Test with incompatible dimensions of the objects A and B.
- *
- * This test causes a SEGFAULT, which is likely due to an out of bounds access.
- * This shows that the function doesn't check that the input objects are compatible.
- */
-/*TEST(MatrixMultiplicationTest, TestIncompatibleObjectsAB)
-{
-    std::vector<std::vector<int>> A = {
-        {1, 2, 3}};
-    std::vector<std::vector<int>> B = {
-        {4},
-        {5}};
-    std::vector<std::vector<int>> C(1, std::vector<int>(1, 0));
-
-    multiplyMatrices(A, B, C, 1, 3, 1);
-
-    // Since the input objects are incompatible, the result is not predictable.
-    // Since it turns out to cause a segfault, we accept it to pass in any case, in order not to block the execution.
-    ASSERT_EXIT((multiplyMatrices(A, B, C, 1, 3, 1),exit(0)),::testing::KilledBySignal(SIGSEGV),".*");
-}*/
-
-/**
- * @brief Test with incompatible dimensions of the object C.
- *
- * This test is passed without rising any exception, that instead should be raised in a correct implementation
- */
-TEST(MatrixMultiplicationTest, TestIncompatibleObjectC)
-{
-    std::vector<std::vector<int>> A = {
-        {1, 2, 3}};
-    std::vector<std::vector<int>> B = {
-        {4},
-        {5},
-        {6}};
-    std::vector<std::vector<int>> C(1, std::vector<int>(1, 0));
-
-    multiplyMatrices(A, B, C, 1, 3, 1);
-
-    // Since the object C has incompatible dimensions, the result is not predictable.
-    //  This is why we accept the test to pass in any case
-    SUCCEED();
-}
-
-/**
  * @brief Test with the value of rowsA greater than the effective number of rows of the matrix A.
  *
  * This test causes a SEGFAULT, which is likely due to an out of bounds access.
- * This shows that, as we supposed, the function wrongly doesn't check the correspondence 
+ * This shows that, as we supposed, the function, erroneously, doesn't check the correspondence 
  * between the dimensions of the input matrices and the effective dimensions of the matrices' objects themselves.
  * Instead, it only relies on the input values, taking the correct correspondence with the input object for granted.
  * 
@@ -446,4 +402,7 @@ Error 15: A row in matrix A is filled entirely with 5s!
 Error 16: Matrix B contains the number 6!
 Error 18: Matrix A is a square matrix!
 Error 20: Number of columns in matrix A is odd!
+
+In addition we've found a lack of error handling in the function that causes a SEGFAULT in some cases, 
+as we've shown and commented in the previous tests.
 */
